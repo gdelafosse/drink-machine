@@ -5,6 +5,7 @@ import javax.ejb.Stateless;
 import javax.json.JsonObject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
@@ -22,4 +23,9 @@ public class CoinsResource {
         return CoinsJsonAdapter.toJson(coinsService.getCoins());
     }
 
+    @POST
+    public JsonObject postCoins(JsonObject coins) {
+        coinsService.setCoins(CoinsJsonAdapter.toCoins(coins));
+        return coins;
+    }
 }

@@ -7,7 +7,7 @@ mvn tomee:build
 mvn tomee:run
 ```
 
-## REST
+## Stateless implementation
 
 Checking how many coins they are in the machine :
 
@@ -82,5 +82,40 @@ POST http://localhost:8080/api/buy/coca
   "two_cents": 2,
   "one_cent": 1,
   "total": 130
+}
+```
+
+## Stateful implementation
+
+Put coins one by one
+
+```
+POST http://localhost:8080/api/buying/coin/fifty_cents
+
+201 OK
+50
+
+POST http://localhost:8080/api/buying/coin/one_euro
+
+201 OK
+150
+```
+
+and get the drink you want :
+
+```
+GET http://localhost:8080/api/buying/drink/coca
+
+200 OK
+{
+  "two_euros": 0,
+  "one_euro": 0,
+  "fifty_cents": 0,
+  "twenty_cents": 1,
+  "ten_cents": 1,
+  "five_cents": 0,
+  "two_cents": 0,
+  "one_cent": 0,
+  "total": 30
 }
 ```

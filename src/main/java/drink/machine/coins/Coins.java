@@ -37,12 +37,12 @@ public class Coins
     @ElementCollection(fetch = EAGER)
     private Map<Coin, Integer> coins = new HashMap<>();
 
-    public void setCoin(Coin coin, int amount)
+    public void set(Coin coin, int amount)
     {
         coins.put(coin, amount);
     }
 
-    public int getCoin(Coin coin)
+    public int get(Coin coin)
     {
         return coins.containsKey(coin) ? coins.get(coin) : 0;
     }
@@ -53,13 +53,26 @@ public class Coins
                 .sum();
     }
 
+    public void add(Coin coin) {
+        add(coin, 1);
+    }
+
+    public void add(Coin coin, int amount) {
+        set(coin, get(coin) + amount);
+    }
+
     public void add(Coins money) {
-        Arrays.stream(Coin.values()).forEach(c -> setCoin(c, getCoin(c) + money.getCoin(c)));
+        Arrays.stream(Coin.values()).forEach(c -> add(c, money.get(c)));
     }
 
     public void remove(Coins money)
     {
-        Arrays.stream(Coin.values()).forEach(c -> setCoin(c, getCoin(c) - money.getCoin(c)));
+        Arrays.stream(Coin.values()).forEach(c -> set(c, get(c) - money.get(c)));
     }
+
+    public void reset() {
+        Arrays.stream(Coin.values()).forEach(c -> set(c, 0));
+    }
+
 }
 

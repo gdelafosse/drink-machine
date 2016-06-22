@@ -9,13 +9,13 @@ public class CoinsJsonAdapter {
 
     public static Coins toCoins(JsonObject json) {
         Coins coins = new Coins();
-        json.keySet().stream().forEach( key -> coins.setCoin(Coin.valueOf(key.toUpperCase()), json.getInt(key)));
+        json.keySet().stream().forEach( key -> coins.set(Coin.valueOf(key.toUpperCase()), json.getInt(key)));
         return coins;
     }
 
     public static JsonObject toJson(Coins coins) {
         JsonObjectBuilder json = Json.createObjectBuilder();
-        Arrays.stream(Coin.values()).forEach(c -> json.add(c.name().toLowerCase(), coins.getCoin(c)));
+        Arrays.stream(Coin.values()).forEach(c -> json.add(c.name().toLowerCase(), coins.get(c)));
         json.add("total", coins.sum());
         return json.build();
     }

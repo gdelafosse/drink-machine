@@ -7,8 +7,6 @@ import javax.ejb.Startup;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import drink.machine.drinks.Drink;
-
 @Singleton
 @Startup
 public class CoinsStartup
@@ -19,7 +17,7 @@ public class CoinsStartup
     @PostConstruct
     public void startUp() {
         Coins coins = new Coins();
-        Arrays.stream(Coin.values()).forEach(coin -> coins.setCoin(coin, 5));
+        Arrays.stream(Coin.values()).forEach(coin -> coins.set(coin, 5));
         em.persist(coins);
     }
 }
