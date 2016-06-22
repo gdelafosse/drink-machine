@@ -25,6 +25,7 @@
         <class>drink.machine.drinks.Drink</class>
         <properties>
             <property name="openjpa.jdbc.SynchronizeMappings" value="buildSchema(ForeignKeys=true)"/>
+            <property name="openjpa.jdbc.DBDictionary" value="hsql(SupportsSelectForUpdate=true)"/>
         </properties>
     </persistence-unit>
 </persistence>

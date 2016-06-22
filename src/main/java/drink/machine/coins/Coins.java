@@ -42,6 +42,10 @@ public class Coins
         coins.put(coin, amount);
     }
 
+    public void set(Coins coins) {
+        Arrays.stream(Coin.values()).forEach(c -> set(c, coins.get(c)));
+    }
+
     public int get(Coin coin)
     {
         return coins.containsKey(coin) ? coins.get(coin) : 0;

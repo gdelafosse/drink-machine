@@ -18,6 +18,7 @@ package drink.machine.coins;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.LockModeType;
 import javax.persistence.PersistenceContext;
 
 @Stateless
@@ -34,11 +35,12 @@ public class CoinsService
     }
 
     public void setCoins(Coins coins) {
-        entityManager.merge(coins);
+        Coins original = safeGet();
+        original.set(coins);
     }
 
     private Coins safeGet() {
-        Coins coins = entityManager.find(Coins.class, Coins.COINSID);
+        Coins coins = entityManager.find(Coins.class, Coins.COINSID, LockModeType.PESSIMISTIC_READ);
         if (coins == null) {
             throw new RuntimeException("Unable to get coins from machine");
         }
