@@ -1,0 +1,193 @@
+{
+	"variables": [],
+	"info": {
+		"name": "DrinkMachine",
+		"_postman_id": "7a74f4bb-bca6-6595-5945-edcb0f7363e3",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "list drinks",
+			"request": {
+				"url": "http://localhost:8080/api/drinks/",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "90"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "get drink by name",
+			"request": {
+				"url": "http://localhost:8080/api/drinks/coca",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "90"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "add drink",
+			"request": {
+				"url": "http://localhost:8080/api/drinks/",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"finley\",\n    \"price\" : 150,\n    \"amount\": 5\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "update drink",
+			"request": {
+				"url": "http://localhost:8080/api/drinks/finley",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Finley\",\n    \"price\" : 130,\n    \"amount\": 5\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "update drink amount",
+			"request": {
+				"url": "http://localhost:8080/api/drinks/coca/amount",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "18"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "check coins",
+			"request": {
+				"url": "http://localhost:8080/api/coins",
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "set coins",
+			"request": {
+				"url": "http://localhost:8080/api/coins",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"two_euros\": 15,\n  \"one_euro\": 5,\n  \"fifty_cents\": 5,\n  \"twenty_cents\": 5,\n  \"ten_cents\": 5,\n  \"five_cents\": 5,\n  \"two_cents\": 5,\n  \"one_cent\": 5\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "buy a drink",
+			"request": {
+				"url": "http://localhost:8080/api/buy/coca",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"two_euros\": 20\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "put a coin",
+			"request": {
+				"url": "http://localhost:8080/api/buying/coin/fifty_cents",
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "ask for a drink",
+			"request": {
+				"url": "http://localhost:8080/api/buying/drink/coca",
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
