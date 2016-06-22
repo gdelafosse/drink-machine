@@ -34,7 +34,7 @@ public class BuyService {
      */
     public Coins buy(String drinkName, Coins money) throws DrinkNotFoundException, NotEnoughMoneyInMachineException, NoMoreDrinkException, NotEnoughMoneyGivenException
     {
-        Drink drink = drinkService.getDrinkByName(drinkName);
+        Drink drink = drinkService.getDrink(drinkName);
         if (drink == null) {
             throw new DrinkNotFoundException(drinkName);
         } else if (drink.getAmount() == 0 ) {
