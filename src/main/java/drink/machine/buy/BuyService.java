@@ -45,7 +45,7 @@ public class BuyService {
 
         }
         // get the money available in the machine
-        Coins coins = coinsService.getCoins();
+        Coins coins = coinsService.getCoins(true);
 
         // add what the user gave
         coins.add(money);

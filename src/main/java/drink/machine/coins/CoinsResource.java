@@ -20,7 +20,7 @@ public class CoinsResource {
 
     @GET
     public JsonObject getCoins() {
-        return CoinsJsonAdapter.toJson(coinsService.getCoins());
+        return CoinsJsonAdapter.toJson(coinsService.getCoins(false));
     }
 
     @POST

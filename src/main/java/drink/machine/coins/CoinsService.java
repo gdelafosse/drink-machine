@@ -27,20 +27,20 @@ public class CoinsService
     @PersistenceContext(unitName = "drink-machine-pu")
     private EntityManager entityManager;
 
-    public Coins getCoins()
+    public Coins getCoins(boolean lock)
     {
-        Coins coins = safeGet();
+        Coins coins = safeGet(lock);
         entityManager.detach(coins);
         return coins;
     }
 
     public void setCoins(Coins coins) {
-        Coins original = safeGet();
+        Coins original = safeGet(true);
         original.set(coins);
     }
 
-    private Coins safeGet() {
-        Coins coins = entityManager.find(Coins.class, Coins.COINSID, LockModeType.PESSIMISTIC_READ);
+    private Coins safeGet(boolean lock) {
+        Coins coins = entityManager.find(Coins.class, Coins.COINSID, lock ? LockModeType.PESSIMISTIC_WRITE : LockModeType.NONE);
         if (coins == null) {
             throw new RuntimeException("Unable to get coins from machine");
         }
