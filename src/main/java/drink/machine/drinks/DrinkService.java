@@ -5,7 +5,6 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-import javax.ws.rs.PathParam;
 
 @Stateless
 public class DrinkService {
@@ -24,19 +23,10 @@ public class DrinkService {
         return drink;
     }
 
-    public Drink updateDrink(@PathParam("name") String name, Drink drink) throws DrinkNotFoundException
+    public Drink updateDrink(String drinkName, int amount)
     {
-        Drink updated = getDrink(name);
-        updated.setAmount(drink.getAmount());
-        updated.setPrice(drink.getPrice());
-        updated.setName(drink.getName());
-        return updated;
-    }
-
-    public Drink updateDrink(@PathParam("name") String name, int account)
-    {
-        Drink drink = em.find(Drink.class, name);
-        drink.setAmount(account);
+        Drink drink = em.find(Drink.class, drinkName);
+        drink.setAmount(amount);
         return drink;
     }
 

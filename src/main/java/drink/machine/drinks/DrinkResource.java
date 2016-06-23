@@ -47,21 +47,6 @@ public class DrinkResource
         return Response.status(Response.Status.CREATED).entity(drinkService.addDrink(drink)).build();
     }
 
-    @PUT
-    @Path("/{name}")
-    public Response updateDrink(@PathParam("name") String name, Drink drink) throws InterruptedException
-    {
-        try
-        {
-            return Response.ok(drinkService.updateDrink(name, drink)).build();
-        }
-        catch (DrinkNotFoundException e)
-        {
-            return Response.status(e.getStatus())
-                    .entity(e.getMessage())
-                    .build();
-        }
-    }
 
     @PUT
     @Path("/{name}/amount")

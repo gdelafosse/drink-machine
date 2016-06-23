@@ -68,26 +68,6 @@
 			"response": []
 		},
 		{
-			"name": "update drink",
-			"request": {
-				"url": "http://localhost:8080/api/drinks/finley",
-				"method": "PUT",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"name\": \"Finley\",\n    \"price\" : 130,\n    \"amount\": 5\n}"
-				},
-				"description": ""
-			},
-			"response": []
-		},
-		{
 			"name": "update drink amount",
 			"request": {
 				"url": "http://localhost:8080/api/drinks/coca/amount",
