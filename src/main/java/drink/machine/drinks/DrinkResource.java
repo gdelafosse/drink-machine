@@ -29,21 +29,14 @@ public class DrinkResource
 
     @GET
     @Path("/{name}")
-    public Response getDrink(@PathParam("name") String name) {
-        try
-        {
-            return Response.ok(drinkService.getDrink(name)).build();
-        }
-        catch (DrinkNotFoundException e)
-        {
-            return Response.status(e.getStatus())
-                    .entity(e.getMessage())
-                    .build();
-        }
+    public Response getDrink(@PathParam("name") String name) throws DrinkNotFoundException
+    {
+        return Response.ok(drinkService.getDrink(name)).build();
     }
 
     @POST
-    public Response addDrink(Drink drink) {
+    public Response addDrink(Drink drink)
+    {
         return Response.status(Response.Status.CREATED).entity(drinkService.addDrink(drink)).build();
     }
 

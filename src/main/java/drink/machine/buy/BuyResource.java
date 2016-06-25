@@ -32,18 +32,9 @@ public class BuyResource
      */
     @POST
     @Path("/{drinkName}")
-    public Response buy(@PathParam("drinkName") String drinkName, JsonObject moneyJson)
+    public Response buy(@PathParam("drinkName") String drinkName, JsonObject moneyJson) throws DrinkMachineException
     {
-        try
-        {
-            Coins back = buyService.buy(drinkName, CoinsJsonAdapter.toCoins(moneyJson));
-            return Response.ok(CoinsJsonAdapter.toJson(back)).build();
-        }
-        catch (DrinkMachineException e)
-        {
-            return Response.status(e.getStatus())
-                    .entity(e.getMessage())
-                    .build();
-        }
+        Coins back = buyService.buy(drinkName, CoinsJsonAdapter.toCoins(moneyJson));
+        return Response.ok(CoinsJsonAdapter.toJson(back)).build();
     }
 }

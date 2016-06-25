@@ -24,25 +24,28 @@ public class BuyingResource
     /**
      * 201 if coin is accepted and returns the total put so far
      * 400 if the coin is not recognized
+     *
      * @param coinName
      * @return
      */
     @POST
     @Path("/coin/{coinName}")
-    public Response putCoin(@PathParam("coinName")String coinName) {
+    public Response putCoin(@PathParam("coinName") String coinName)
+    {
         try
         {
             Coins money = buying.putCoin(Coin.valueOf(coinName.toUpperCase()));
             return Response.status(Response.Status.CREATED).entity(money.sum()).build();
         }
-        catch (IllegalArgumentException e) {
+        catch (IllegalArgumentException e)
+        {
             return Response.status(Response.Status.BAD_REQUEST).entity("Your coin is not recognized").build();
         }
     }
 
     /**
      * Try to gets the drink.
-     *
+     * <p>
      * 200 success and returns the money back
      * 402 if there's not enough money
      * 404 if product doesn't exist
@@ -54,18 +57,10 @@ public class BuyingResource
      */
     @GET
     @Path("/drink/{drinkName}")
-    public Response getDrink(@PathParam("drinkName") String drinkName) {
-        try
-        {
-            Coins back = buying.getDrink(drinkName);
-            return Response.ok(CoinsJsonAdapter.toJson(back)).build();
-        }
-        catch (DrinkMachineException e)
-        {
-            return Response.status(e.getStatus())
-                    .entity(e.getMessage())
-                    .build();
-        }
+    public Response getDrink(@PathParam("drinkName") String drinkName) throws DrinkMachineException
+    {
+        Coins back = buying.getDrink(drinkName);
+        return Response.ok(CoinsJsonAdapter.toJson(back)).build();
     }
 
 }
