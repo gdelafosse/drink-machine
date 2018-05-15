@@ -14,61 +14,20 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
 @Stateless
-public class DrinkService {
+public class DrinkService extends AbstractService<Drink> {
 
     @PersistenceContext(unitName = "drink-machine-pu")
     private EntityManager em;
 
     public Drinks listDrinks() {
-        return listDrinks(null, null);
+        return listDrinks(null, null, null);
     }
 
-    public Drinks listDrinks(Pagination pagination, List<Sort> sort)
+    public Drinks listDrinks(Pagination pagination, List<Sort> sort, List<Criteria> criterias)
     {
-        return list(Drink.class, Drinks.class, pagination, sort);
+        return list(Drink.class, Drinks.class, pagination, sort, criterias);
     }
 
-    private <T,E extends PaginateResult<T>> E list(Class<T> type, Class<E> result, Pagination pagination, List<Sort> sort) {
-        Pagination safePagination = pagination == null? new Pagination() : pagination;
-
-        CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
-        CriteriaQuery<T> query = criteriaBuilder.createQuery(type);
-
-        // SELECT T root FROM T
-        Root<T> root = query.from(type);
-        query.select(root);
-        if (sort != null && !sort.isEmpty()) {
-            query.orderBy(sort.stream().map(s -> {
-                    if (s.direction == Sort.SortDirection.ASC) {
-                        return criteriaBuilder.asc(root.get(s.property));
-                    } else {
-                        return criteriaBuilder.desc(root.get(s.property));
-                    }
-                }).collect(Collectors.toList())
-            );
-        }
-        E paginateResult = null;
-        try {
-            paginateResult = result.newInstance();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
-        paginateResult.values = em.createQuery(query)
-                .setFirstResult(safePagination.offset)
-                .setMaxResults(safePagination.limit)
-                .getResultList();
-        paginateResult.result = new Result();
-        paginateResult.result.count = paginateResult.values.size();
-        paginateResult.result.offset = safePagination.offset;
-
-        CriteriaQuery<Long> count = criteriaBuilder.createQuery(Long.class);
-        count.select(criteriaBuilder.count(count.from(type)));
-
-        paginateResult.result.totalCount = em.createQuery(count).getSingleResult().intValue();
-        return paginateResult;
-    }
 
     public Drink addDrink(Drink drink) {
         em.persist(drink);
