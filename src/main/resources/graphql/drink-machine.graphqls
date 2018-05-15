@@ -3,7 +3,7 @@ schema {
 }
 
 type Query {
-    drinks(pagination:Pagination): Drinks
+    drinks(pagination:Pagination, sort:[Sort]): Drinks
 }
 
 type Drinks {
@@ -22,9 +22,13 @@ input Pagination {
     offset: Int
 }
 
-type Sort {
-    asc:[String]!,
-    desc:[String]!
+input Sort {
+    direction:SortDirection,
+    property:String!
+}
+
+enum SortDirection {
+    ASC, DESC
 }
 
 type Result {

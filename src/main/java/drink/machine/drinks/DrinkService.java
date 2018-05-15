@@ -1,12 +1,10 @@
 package drink.machine.drinks;
 
-import drink.machine.graphql.Drinks;
-import drink.machine.graphql.PaginateResult;
-import drink.machine.graphql.Pagination;
-import drink.machine.graphql.Result;
+import drink.machine.graphql.*;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -22,20 +20,33 @@ public class DrinkService {
     private EntityManager em;
 
     public Drinks listDrinks() {
-        return listDrinks(null);
+        return listDrinks(null, null);
     }
 
-    public Drinks listDrinks(Pagination pagination)
+    public Drinks listDrinks(Pagination pagination, List<Sort> sort)
     {
-        return list(Drink.class, Drinks.class, pagination);
+        return list(Drink.class, Drinks.class, pagination, sort);
     }
 
-    private <T,E extends PaginateResult<T>> E list(Class<T> type, Class<E> result, Pagination pagination) {
+    private <T,E extends PaginateResult<T>> E list(Class<T> type, Class<E> result, Pagination pagination, List<Sort> sort) {
         Pagination safePagination = pagination == null? new Pagination() : pagination;
+
         CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
         CriteriaQuery<T> query = criteriaBuilder.createQuery(type);
+
+        // SELECT T root FROM T
         Root<T> root = query.from(type);
         query.select(root);
+        if (sort != null && !sort.isEmpty()) {
+            query.orderBy(sort.stream().map(s -> {
+                    if (s.direction == Sort.SortDirection.ASC) {
+                        return criteriaBuilder.asc(root.get(s.property));
+                    } else {
+                        return criteriaBuilder.desc(root.get(s.property));
+                    }
+                }).collect(Collectors.toList())
+            );
+        }
         E paginateResult = null;
         try {
             paginateResult = result.newInstance();

@@ -15,8 +15,8 @@ public class QueryResolver implements GraphQLQueryResolver {
         this.drinkService = drinkService;
     }
 
-    public Drinks drinks(Pagination pagination) {
-        Drinks drinks = drinkService.listDrinks(pagination);
+    public Drinks drinks(Pagination pagination, List<Sort> sort) {
+        Drinks drinks = drinkService.listDrinks(pagination, sort);
         return drinks;
     }
 }
