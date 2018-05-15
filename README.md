@@ -119,3 +119,62 @@ GET http://localhost:8080/api/buying/drink/coca
   "total": 30
 }
 ```
+
+## GraphQL implementation
+
+GraphIQL available on http://localhost:8080/
+GraphQL api available on http://localhost:8080/graphql
+
+```
+{
+  drinks(pagination:{
+    limit:10,
+    offset:0
+  }, sort: [
+    {
+      property: "amount",
+      direction: DESC
+    }, {
+      property: "price",
+      direction: ASC
+    }, {
+      property: "name",
+      direction: DESC
+    }
+  ],
+  criterias: [
+    {
+      operator: EQ,
+      property: "name",
+      argument: "orangina"
+    }
+  ]){
+    values {
+      name
+      amount
+      price
+    }
+    result{totalCount,count,offset}
+  }
+}
+
+200 OK
+{
+  "data": {
+    "drinks": {
+      "values": [
+        {
+          "name": "orangina",
+          "amount": 20,
+          "price": 120
+        }
+      ],
+      "result": {
+        "totalCount": 5,
+        "count": 1,
+        "offset": 0
+      }
+    }
+  }
+}
+```
