@@ -24,7 +24,7 @@ public class DrinkResource
     @GET
     public Collection<Drink> listDrinks()
     {
-        return drinkService.listDrinks();
+        return drinkService.listDrinks().values;
     }
 
     @GET

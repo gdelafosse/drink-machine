@@ -1,10 +1,19 @@
 package drink.machine.drinks;
 
+import drink.machine.graphql.Drinks;
+import drink.machine.graphql.PaginateResult;
+import drink.machine.graphql.Pagination;
+import drink.machine.graphql.Result;
+
 import java.util.Collection;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
 @Stateless
 public class DrinkService {
@@ -12,10 +21,42 @@ public class DrinkService {
     @PersistenceContext(unitName = "drink-machine-pu")
     private EntityManager em;
 
-    public Collection<Drink> listDrinks()
+    public Drinks listDrinks() {
+        return listDrinks(null);
+    }
+
+    public Drinks listDrinks(Pagination pagination)
     {
-        TypedQuery<Drink> result = em.createQuery("SELECT d FROM Drink d", Drink.class);
-        return result.getResultList();
+        return list(Drink.class, Drinks.class, pagination);
+    }
+
+    private <T,E extends PaginateResult<T>> E list(Class<T> type, Class<E> result, Pagination pagination) {
+        Pagination safePagination = pagination == null? new Pagination() : pagination;
+        CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
+        CriteriaQuery<T> query = criteriaBuilder.createQuery(type);
+        Root<T> root = query.from(type);
+        query.select(root);
+        E paginateResult = null;
+        try {
+            paginateResult = result.newInstance();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        paginateResult.values = em.createQuery(query)
+                .setFirstResult(safePagination.offset)
+                .setMaxResults(safePagination.limit)
+                .getResultList();
+        paginateResult.result = new Result();
+        paginateResult.result.count = paginateResult.values.size();
+        paginateResult.result.offset = safePagination.offset;
+
+        CriteriaQuery<Long> count = criteriaBuilder.createQuery(Long.class);
+        count.select(criteriaBuilder.count(count.from(type)));
+
+        paginateResult.result.totalCount = em.createQuery(count).getSingleResult().intValue();
+        return paginateResult;
     }
 
     public Drink addDrink(Drink drink) {

@@ -4,7 +4,5 @@ import drink.machine.drinks.Drink;
 
 import java.util.List;
 
-public class Drinks {
-    public List<Drink> values;
-    public Result result;
+public class Drinks extends PaginateResult<Drink> {
 }

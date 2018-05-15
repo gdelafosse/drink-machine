@@ -5,6 +5,7 @@ import com.coxautodev.graphql.tools.GraphQLResolver;
 import drink.machine.drinks.DrinkService;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class QueryResolver implements GraphQLQueryResolver {
@@ -14,10 +15,8 @@ public class QueryResolver implements GraphQLQueryResolver {
         this.drinkService = drinkService;
     }
 
-    public Drinks drinks() {
-        Drinks drinks = new Drinks();
-        drinks.values = new ArrayList<>();
-        drinks.result = new Result();
+    public Drinks drinks(Pagination pagination) {
+        Drinks drinks = drinkService.listDrinks(pagination);
         return drinks;
     }
 }

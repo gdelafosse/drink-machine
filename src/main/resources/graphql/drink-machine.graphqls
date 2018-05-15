@@ -3,7 +3,7 @@ schema {
 }
 
 type Query {
-    drinks: Drinks
+    drinks(pagination:Pagination): Drinks
 }
 
 type Drinks {
@@ -17,7 +17,7 @@ type Drink {
     price: Float
 }
 
-type Pagination {
+input Pagination {
     limit: Int,
     offset: Int
 }
