@@ -6,6 +6,6 @@ public class Criteria {
     public String argument;
 
     public enum Operator {
-        EQ
+        EQ, NEQ, LIKE, NOTLIKE, IN, NOTIN
     }
 }

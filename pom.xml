@@ -47,7 +47,11 @@
       <artifactId>graphql-java-servlet</artifactId>
       <version>5.0.0</version>
     </dependency>
-
+    <dependency>
+      <groupId>commons-beanutils</groupId>
+      <artifactId>commons-beanutils</artifactId>
+      <version>1.9.3</version>
+    </dependency>
     <!-- to test with TomEE and Arquillian
     <dependency>
       <groupId>org.apache.tomee</groupId>

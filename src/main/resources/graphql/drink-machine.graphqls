@@ -44,5 +44,10 @@ input Criteria {
 }
 
 enum Operator {
-    EQ
+    EQ,
+    NEQ,
+    LIKE,
+    NOTLIKE,
+    IN,
+    NOTIN
 }
